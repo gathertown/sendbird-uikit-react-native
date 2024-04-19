@@ -6,7 +6,6 @@
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "createRelease": "github",
       "message": "chore(release): publish %v"
     },
     "version": {
