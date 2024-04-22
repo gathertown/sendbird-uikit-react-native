@@ -1,5 +1,6 @@
 import createTheme from './createTheme';
 
+
 const LightUIKitTheme = createTheme({
   colorScheme: 'light',
   colors: (palette) => {
@@ -246,6 +247,8 @@ const LightUIKitTheme = createTheme({
       },
     };
   },
+  modal: {},
+  bottomSheet: {},
 });
 
 export default LightUIKitTheme;

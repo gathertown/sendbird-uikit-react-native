@@ -11,7 +11,7 @@ const NUM_COLUMN = 6;
 const ReactionListBottomSheet = ({ visible, onClose, onDismiss, reactionCtx, chatCtx }: ReactionBottomSheetProps) => {
   const { width } = useWindowDimensions();
   const { bottom, left, right } = useSafeAreaInsets();
-  const { colors } = useUIKitTheme();
+  const { colors, bottomSheet } = useUIKitTheme();
 
   const { currentUser, emojiManager } = chatCtx;
   const { channel, message } = reactionCtx;
@@ -34,6 +34,8 @@ const ReactionListBottomSheet = ({ visible, onClose, onDismiss, reactionCtx, cha
             backgroundColor: colors.ui.dialog.default.none.background,
             paddingLeft: left + styles.container.paddingHorizontal,
             paddingRight: right + styles.container.paddingHorizontal,
+            borderTopRightRadius: bottomSheet.borderRadius ?? 8,
+            borderTopLeftRadius: bottomSheet.borderRadius ?? 8,
           },
         ]}
       >
@@ -79,8 +81,6 @@ const ReactionListBottomSheet = ({ visible, onClose, onDismiss, reactionCtx, cha
 const styles = createStyleSheet({
   container: {
     overflow: 'hidden',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
     paddingTop: 16,
     paddingHorizontal: 18,
     flexDirection: 'row',

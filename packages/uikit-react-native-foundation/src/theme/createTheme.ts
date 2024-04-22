@@ -8,6 +8,12 @@ type Options = {
   colors: (palette: UIKitTheme['palette']) => UIKitColors;
   palette?: UIKitTheme['palette'];
   typography?: UIKitTypographyOverrides;
+  modal: {
+    borderRadius?: number;
+  };
+  bottomSheet: {
+    borderRadius?: number;
+  };
 };
 
 const createTheme = ({
@@ -15,12 +21,15 @@ const createTheme = ({
   palette = Palette,
   colors: createColors,
   typography = { shared: { fontFamily: 'System' } },
+  bottomSheet,
+  modal,
 }: Options): UIKitTheme => {
   let _palette = palette;
   let _colors = createColors(_palette);
-
   return {
     colorScheme,
+    bottomSheet,
+    modal,
     select: createSelectByColorScheme(colorScheme),
     get palette() {
       return _palette;

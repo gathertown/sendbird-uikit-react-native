@@ -246,6 +246,8 @@ const DarkUIKitTheme = createTheme({
       },
     };
   },
+  modal: {},
+  bottomSheet: {},
 });
 
 export default DarkUIKitTheme;

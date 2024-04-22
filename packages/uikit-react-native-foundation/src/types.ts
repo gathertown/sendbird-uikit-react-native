@@ -27,6 +27,13 @@ export interface UIKitTheme {
   palette: UIKitPalette;
   colors: UIKitColors;
 
+  modal: {
+    borderRadius?: number;
+  };
+  bottomSheet: {
+    borderRadius?: number;
+  };
+
   typography: UIKitTypography;
 }
 

@@ -6,6 +6,7 @@ import type Icon from '../../components/Icon';
 import Modal from '../../components/Modal';
 import useHeaderStyle from '../../styles/useHeaderStyle';
 import DialogSheet from '../Dialog/DialogSheet';
+import useUIKitTheme from '../../theme/useUIKitTheme';
 
 type HeaderProps = { onClose: () => Promise<void> };
 export type BottomSheetItem = {
@@ -29,6 +30,7 @@ const BottomSheet = ({ onDismiss, onHide, visible, sheetItems, HeaderComponent }
   const { statusBarTranslucent } = useHeaderStyle();
   const { width } = useWindowDimensions();
   const { bottom, left, right } = useSafeAreaInsets();
+  const theme = useUIKitTheme();
   return (
     <Modal
       type={'slide'}
@@ -38,7 +40,7 @@ const BottomSheet = ({ onDismiss, onHide, visible, sheetItems, HeaderComponent }
       visible={visible}
       backgroundStyle={{ alignItems: 'center', justifyContent: 'flex-end' }}
     >
-      <DialogSheet style={{ width, paddingBottom: bottom }}>
+      <DialogSheet style={{ width, paddingBottom: bottom, borderTopLeftRadius: theme.bottomSheet.borderRadius ?? 8, borderTopRightRadius: theme.bottomSheet.borderRadius ?? 8 }}>
         {HeaderComponent && <HeaderComponent onClose={onHide} />}
         {sheetItems.map(({ onPress, ...props }, idx) => (
           <TouchableOpacity

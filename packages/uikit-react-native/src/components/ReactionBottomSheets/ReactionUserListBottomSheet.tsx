@@ -26,7 +26,7 @@ const ReactionUserListBottomSheet = ({
 }: ReactionBottomSheetProps) => {
   const { width } = useWindowDimensions();
   const { bottom, left, right } = useSafeAreaInsets();
-  const { colors } = useUIKitTheme();
+  const { colors, bottomSheet } = useUIKitTheme();
 
   const [tabIndex, setTabIndex] = useState(0);
   const scrollRef = useRef<ScrollView>();
@@ -163,7 +163,8 @@ const ReactionUserListBottomSheet = ({
       <View
         style={[
           styles.container,
-          { width, paddingBottom: bottom, backgroundColor: colors.ui.dialog.default.none.background },
+          { width, paddingBottom: bottom, backgroundColor: colors.ui.dialog.default.none.background,
+             borderTopLeftRadius: bottomSheet.borderRadius ?? 8, borderTopRightRadius: bottomSheet.borderRadius ?? 8 },
         ]}
       >
         <ScrollView
@@ -196,8 +197,6 @@ const styles = createStyleSheet({
   },
   container: {
     overflow: 'hidden',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
     paddingTop: 16,
     alignItems: 'center',
   },

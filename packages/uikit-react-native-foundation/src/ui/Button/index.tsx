@@ -51,7 +51,12 @@ const Button = ({
             {icon && (
               <Icon size={24} icon={icon} color={contentColor ?? stateColor.content} containerStyle={styles.icon} />
             )}
-            <Text button color={contentColor ?? stateColor.content} style={styles.text}>
+            <Text button color={contentColor ?? stateColor.content} style={{
+              ...styles.text,
+              ...{
+                opacity: pressed ? 0.7 : 1,
+              },
+            }}>
               {children}
             </Text>
           </>

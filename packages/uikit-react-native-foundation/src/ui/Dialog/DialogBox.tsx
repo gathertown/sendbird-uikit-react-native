@@ -8,9 +8,9 @@ type Props = React.PropsWithChildren<{
   style?: StyleProp<ViewStyle>;
 }>;
 const DialogBox = ({ style, children }: Props) => {
-  const { colors } = useUIKitTheme();
+  const { colors, modal } = useUIKitTheme();
   return (
-    <View style={[styles.container, { backgroundColor: colors.ui.dialog.default.none.background }, style]}>
+    <View style={[styles.container, { backgroundColor: colors.ui.dialog.default.none.background, borderRadius: modal.borderRadius ?? 4 }, style]}>
       {children}
     </View>
   );
@@ -19,7 +19,6 @@ const DialogBox = ({ style, children }: Props) => {
 const styles = createStyleSheet({
   container: {
     width: 280,
-    borderRadius: 4,
   },
 });
 
