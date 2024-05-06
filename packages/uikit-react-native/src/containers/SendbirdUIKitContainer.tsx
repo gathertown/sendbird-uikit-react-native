@@ -5,6 +5,7 @@ import type {
 } from '@gathertown/uikit-react-native-foundation';
 import {
   CustomComponentProvider,
+  CustomProvidersRenderer,
   DialogProvider,
   Header,
   HeaderStyleProvider,
@@ -33,7 +34,7 @@ import { SBUConfig, UIKitConfigProvider } from '@sendbird/uikit-tools';
 
 import { LocalizationContext, LocalizationProvider } from '../contexts/LocalizationCtx';
 import { PlatformServiceProvider } from '../contexts/PlatformServiceCtx';
-import { ReactionProvider } from '../contexts/ReactionCtx';
+import { ReactionBottomSheetsWrapper, ReactionProvider } from '../contexts/ReactionCtx';
 import type { ChatRelatedFeaturesInUIKit } from '../contexts/SendbirdChatCtx';
 import { SendbirdChatProvider } from '../contexts/SendbirdChatCtx';
 import { UserProfileProvider } from '../contexts/UserProfileCtx';
@@ -226,14 +227,14 @@ const SendbirdUIKitContainer = ({
           enableImageCompression={chatOptions.enableImageCompression ?? SendbirdUIKit.DEFAULT.IMAGE_COMPRESSION}
         >
           <LocalizationProvider stringSet={defaultStringSet}>
-            <CustomComponentProvider {...customRenderProps}>
-              <PlatformServiceProvider
-                fileService={platformServices.file}
-                notificationService={platformServices.notification}
-                clipboardService={platformServices.clipboard}
-                mediaService={platformServices.media}
-              >
-                <UIKitThemeProvider theme={styles?.theme ?? LightUIKitTheme}>
+            <UIKitThemeProvider theme={styles?.theme ?? LightUIKitTheme}>
+              <CustomComponentProvider {...customRenderProps}>
+                <PlatformServiceProvider
+                  fileService={platformServices.file}
+                  notificationService={platformServices.notification}
+                  clipboardService={platformServices.clipboard}
+                  mediaService={platformServices.media}
+                >
                   <HeaderStyleProvider
                     HeaderComponent={styles?.HeaderComponent ?? Header}
                     defaultTitleAlign={styles?.defaultHeaderTitleAlign ?? 'left'}
@@ -246,32 +247,37 @@ const SendbirdUIKitContainer = ({
                         statusBarTranslucent={styles?.statusBarTranslucent ?? true}
                       >
                         <ReactionProvider>
-                          <LocalizationContext.Consumer>
-                            {(value) => {
-                              const STRINGS = value?.STRINGS || defaultStringSet;
-                              return (
-                                <DialogProvider
-                                  defaultLabels={{
-                                    alert: { ok: STRINGS.DIALOG.ALERT_DEFAULT_OK },
-                                    prompt: {
-                                      ok: STRINGS.DIALOG.PROMPT_DEFAULT_OK,
-                                      cancel: STRINGS.DIALOG.PROMPT_DEFAULT_CANCEL,
-                                      placeholder: STRINGS.DIALOG.PROMPT_DEFAULT_PLACEHOLDER,
-                                    },
-                                  }}
-                                >
-                                  {renderChildren()}
-                                </DialogProvider>
-                              );
-                            }}
-                          </LocalizationContext.Consumer>
+                          <CustomProvidersRenderer>
+                            <>
+                              <LocalizationContext.Consumer>
+                                {(value) => {
+                                  const STRINGS = value?.STRINGS || defaultStringSet;
+                                  return (
+                                    <DialogProvider
+                                      defaultLabels={{
+                                        alert: { ok: STRINGS.DIALOG.ALERT_DEFAULT_OK },
+                                        prompt: {
+                                          ok: STRINGS.DIALOG.PROMPT_DEFAULT_OK,
+                                          cancel: STRINGS.DIALOG.PROMPT_DEFAULT_CANCEL,
+                                          placeholder: STRINGS.DIALOG.PROMPT_DEFAULT_PLACEHOLDER,
+                                        },
+                                      }}
+                                    >
+                                      {renderChildren()}
+                                    </DialogProvider>
+                                  );
+                                }}
+                              </LocalizationContext.Consumer>
+                              <ReactionBottomSheetsWrapper />
+                            </>
+                          </CustomProvidersRenderer>
                         </ReactionProvider>
                       </UserProfileProvider>
                     </ToastProvider>
                   </HeaderStyleProvider>
-                </UIKitThemeProvider>
-              </PlatformServiceProvider>
-            </CustomComponentProvider>
+                </PlatformServiceProvider>
+              </CustomComponentProvider>
+            </UIKitThemeProvider>
           </LocalizationProvider>
         </SendbirdChatProvider>
       </UIKitConfigProvider>
