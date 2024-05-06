@@ -277,7 +277,11 @@ const useChannelInputItems = (channel: SendbirdChannel, sendFileMessage: (file: 
       case channel.isOpenChannel():
         return sbOptions.uikit.openChannel.channel.input;
       case channel.isGroupChannel():
-        return sbOptions.uikit.groupChannel.channel.input;
+        return {
+          enableDocument: true,
+          camera: { enablePhoto: true, enableVideo: true },
+          gallery: { enablePhoto: true, enableVideo: true },
+        };
       default:
         return {
           enableDocument: true,
