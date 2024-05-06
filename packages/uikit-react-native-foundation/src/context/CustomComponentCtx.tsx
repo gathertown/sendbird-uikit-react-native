@@ -61,6 +61,8 @@ export type SendInputRenderProp = (props: {
   ref: React.Ref<TextInput>;
 }) => React.ReactElement;
 
+export type CustomProvidersRenderProp = ({ children }: { children: React.ReactElement }) => React.ReactElement;
+
 export type CustomComponentContextType = {
   renderIncomingMessageContainer?: IncomingMessageContainerRenderProp;
   renderOutgoingMessageContainer?: OutgoingMessageContainerRenderProp;
@@ -78,6 +80,7 @@ export type CustomComponentContextType = {
     renderEditInput: EditInputRenderProp;
     renderSendInput: SendInputRenderProp;
   };
+  renderCustomProviders?: CustomProvidersRenderProp;
 };
 
 type Props = React.PropsWithChildren<CustomComponentContextType>;
