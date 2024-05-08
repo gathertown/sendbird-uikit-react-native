@@ -69,6 +69,9 @@ export type CombinedNewMessagesScrollToBottomButtonRenderProp = (props: {
   newMessagesCount: number;
 }) => React.ReactElement;
 
+export type ToastType = 'normal' | 'error' | 'success';
+export type ShowToastRenderProp = (text: string, type?: ToastType) => void;
+
 export type CustomComponentContextType = {
   renderIncomingMessageContainer?: IncomingMessageContainerRenderProp;
   renderOutgoingMessageContainer?: OutgoingMessageContainerRenderProp;
@@ -88,6 +91,7 @@ export type CustomComponentContextType = {
   };
   renderCustomProviders?: CustomProvidersRenderProp;
   renderCombinedNewMessagesScrollToBottomButton?: CombinedNewMessagesScrollToBottomButtonRenderProp;
+  renderToast?: ShowToastRenderProp;
 };
 
 type Props = React.PropsWithChildren<CustomComponentContextType>;

@@ -6,9 +6,9 @@ import Icon from '../../components/Icon';
 import Text from '../../components/Text';
 import createStyleSheet from '../../styles/createStyleSheet';
 import useUIKitTheme from '../../theme/useUIKitTheme';
+import { CustomComponentContext, ShowToastRenderProp, ToastType } from "../../context/CustomComponentCtx";
 
-type ToastType = 'normal' | 'error' | 'success';
-type Context = { show(text: string, type?: ToastType): void };
+type Context = { show: ShowToastRenderProp };
 
 const ToastContext = createContext<Context | null>(null);
 
@@ -102,6 +102,10 @@ export const ToastProvider = ({
 
 export const useToast = () => {
   const context = useContext(ToastContext);
+  const customContext = useContext(CustomComponentContext);
+  if (customContext?.renderToast) {
+    return { show: customContext.renderToast };
+  }
   if (!context) throw new Error('ToastContext is not provided, wrap your app with ToastProvider');
   return context;
 };
