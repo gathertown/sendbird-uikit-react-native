@@ -103,4 +103,6 @@ export type {
   EditInputRenderProp,
   SendInputRenderProp,
   CombinedNewMessagesScrollToBottomButtonRenderProp,
+  ShowToastRenderProp,
+  ToastType,
 } from './context/CustomComponentCtx';
