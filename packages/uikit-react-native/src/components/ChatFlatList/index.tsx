@@ -52,7 +52,7 @@ const ChatFlatList = forwardRef<RNFlatList, Props>(function ChatFlatList(
   });
 
   useEffect(() => {
-    if (data && data.length < prevDataLength.current) {
+    if (data && data.length > 0 && data.length < prevDataLength.current) {
       if (contentOffsetY.current === 0) {
         setTimeout(() => {
           if (typeof ref !== 'function') {
