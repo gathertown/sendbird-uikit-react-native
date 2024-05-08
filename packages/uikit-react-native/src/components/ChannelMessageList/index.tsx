@@ -131,7 +131,7 @@ const ChannelMessageList = <T extends SendbirdGroupChannel | SendbirdOpenChannel
     onResendFailedMessage,
     onPressMediaMessage,
   });
-  const { renderCombinedNewMessagesScrollToBottomButton } = useContext(CustomComponentContext);
+  const ctx = useContext(CustomComponentContext);
 
   const safeAreaLayout = { paddingLeft: left, paddingRight: right };
 
@@ -172,16 +172,16 @@ const ChannelMessageList = <T extends SendbirdGroupChannel | SendbirdOpenChannel
           flatListProps?.contentContainerStyle,
         ]}
       />
-      {renderCombinedNewMessagesScrollToBottomButton && (
+      {ctx?.renderCombinedNewMessagesScrollToBottomButton && (
         <View style={[styles.newMsgButton, safeAreaLayout]}>
-          {renderCombinedNewMessagesScrollToBottomButton({
+          {ctx.renderCombinedNewMessagesScrollToBottomButton({
             visible: hasNext() || scrolledAwayFromBottom,
             onPress: () => newMessages.length > 0 ? onPressNewMessagesButton() : onPressScrollToBottomButton(),
             newMessagesCount: newMessages.length,
           })}
         </View>
       )}
-      {renderNewMessagesButton && !renderCombinedNewMessagesScrollToBottomButton && (
+      {renderNewMessagesButton && !ctx?.renderCombinedNewMessagesScrollToBottomButton && (
         <View style={[styles.newMsgButton, safeAreaLayout]}>
           {renderNewMessagesButton({
             visible: newMessages.length > 0 && (hasNext() || scrolledAwayFromBottom),
@@ -190,7 +190,7 @@ const ChannelMessageList = <T extends SendbirdGroupChannel | SendbirdOpenChannel
           })}
         </View>
       )}
-      {renderScrollToBottomButton && !renderCombinedNewMessagesScrollToBottomButton && (
+      {renderScrollToBottomButton && !ctx?.renderCombinedNewMessagesScrollToBottomButton && (
         <View style={[styles.scrollButton, safeAreaLayout]}>
           {renderScrollToBottomButton({
             visible: hasNext() || scrolledAwayFromBottom,
