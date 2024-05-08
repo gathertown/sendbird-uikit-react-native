@@ -102,4 +102,5 @@ export type {
   ReactionBottomSheetUserListRenderProp,
   EditInputRenderProp,
   SendInputRenderProp,
+  CombinedNewMessagesScrollToBottomButtonRenderProp,
 } from './context/CustomComponentCtx';

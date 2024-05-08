@@ -1,4 +1,4 @@
-import React, { Ref } from 'react';
+import React, { useContext, Ref } from 'react';
 import { FlatList, FlatListProps, ListRenderItem, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,6 +10,7 @@ import {
   useBottomSheet,
   useToast,
   useUIKitTheme,
+  CustomComponentContext
 } from '@gathertown/uikit-react-native-foundation';
 import {
   Logger,
@@ -130,6 +131,7 @@ const ChannelMessageList = <T extends SendbirdGroupChannel | SendbirdOpenChannel
     onResendFailedMessage,
     onPressMediaMessage,
   });
+  const { renderCombinedNewMessagesScrollToBottomButton } = useContext(CustomComponentContext);
 
   const safeAreaLayout = { paddingLeft: left, paddingRight: right };
 
@@ -170,7 +172,16 @@ const ChannelMessageList = <T extends SendbirdGroupChannel | SendbirdOpenChannel
           flatListProps?.contentContainerStyle,
         ]}
       />
-      {renderNewMessagesButton && (
+      {renderCombinedNewMessagesScrollToBottomButton && (
+        <View style={[styles.newMsgButton, safeAreaLayout]}>
+          {renderCombinedNewMessagesScrollToBottomButton({
+            visible: hasNext() || scrolledAwayFromBottom,
+            onPress: () => newMessages.length > 0 ? onPressNewMessagesButton() : onPressScrollToBottomButton(),
+            newMessagesCount: newMessages.length,
+          })}
+        </View>
+      )}
+      {renderNewMessagesButton && !renderCombinedNewMessagesScrollToBottomButton && (
         <View style={[styles.newMsgButton, safeAreaLayout]}>
           {renderNewMessagesButton({
             visible: newMessages.length > 0 && (hasNext() || scrolledAwayFromBottom),
@@ -179,7 +190,7 @@ const ChannelMessageList = <T extends SendbirdGroupChannel | SendbirdOpenChannel
           })}
         </View>
       )}
-      {renderScrollToBottomButton && (
+      {renderScrollToBottomButton && !renderCombinedNewMessagesScrollToBottomButton && (
         <View style={[styles.scrollButton, safeAreaLayout]}>
           {renderScrollToBottomButton({
             visible: hasNext() || scrolledAwayFromBottom,
@@ -317,7 +328,7 @@ const useGetMessagePressActions = <T extends SendbirdGroupChannel | SendbirdOpen
 
           pushCopySheetItem(msg);
         }
-        
+
         sheetItems.push({
           disabled: msg.threadInfo ? msg.threadInfo.replyCount > 0 : undefined,
           icon: 'delete',

@@ -63,6 +63,12 @@ export type SendInputRenderProp = (props: {
 
 export type CustomProvidersRenderProp = ({ children }: { children: React.ReactElement }) => React.ReactElement;
 
+export type CombinedNewMessagesScrollToBottomButtonRenderProp = (props: {
+  visible: boolean;
+  onPress: () => void;
+  newMessagesCount: number;
+}) => React.ReactElement;
+
 export type CustomComponentContextType = {
   renderIncomingMessageContainer?: IncomingMessageContainerRenderProp;
   renderOutgoingMessageContainer?: OutgoingMessageContainerRenderProp;
@@ -81,6 +87,7 @@ export type CustomComponentContextType = {
     renderSendInput: SendInputRenderProp;
   };
   renderCustomProviders?: CustomProvidersRenderProp;
+  renderCombinedNewMessagesScrollToBottomButton?: CombinedNewMessagesScrollToBottomButtonRenderProp;
 };
 
 type Props = React.PropsWithChildren<CustomComponentContextType>;
