@@ -11,15 +11,16 @@ import useUIKitTheme from '../../theme/useUIKitTheme';
 import MessageContainer from './MessageContainer';
 import type { GroupChannelMessageProps } from './index';
 import { CustomComponentContext } from '../../context/CustomComponentCtx';
+import { useLocalImageCache } from '../../context/LocalImageContext';
 
 const ImageFileMessage = (props: GroupChannelMessageProps<SendbirdFileMessage>) => {
   const { onPress, onLongPress, variant = 'incoming' } = props;
   const ctx = useContext(CustomComponentContext);
+  const localImage = useLocalImageCache(props.message);
 
   const { colors } = useUIKitTheme();
-
   const content = (
-    <ImageWithPlaceholder source={{ uri: getThumbnailUriFromFileMessage(props.message) }} style={styles.image} />
+    <ImageWithPlaceholder source={{ uri: getThumbnailUriFromFileMessage(props.message) }} cachedSource={localImage} style={styles.image} />
   );
 
   return (

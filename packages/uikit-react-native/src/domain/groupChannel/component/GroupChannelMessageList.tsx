@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import type { FlatList } from 'react-native';
 
 import { useChannelHandler } from '@gathertown/uikit-chat-hooks';
-import { useToast } from '@gathertown/uikit-react-native-foundation';
+import { useToast, LocalImageProvider } from '@gathertown/uikit-react-native-foundation';
 import type { SendbirdMessage } from '@gathertown/uikit-utils';
 import { isDifferentChannel, useFreshCallback, useIsFirstMount, useUniqHandlerId } from '@gathertown/uikit-utils';
 
@@ -117,15 +117,17 @@ const GroupChannelMessageList = (props: GroupChannelProps['MessageList']) => {
   });
 
   return (
-    <ChannelMessageList
-      {...props}
-      ref={ref}
-      onReplyMessage={setMessageToReply}
-      onEditMessage={setMessageToEdit}
-      onPressParentMessage={onPressParentMessage}
-      onPressNewMessagesButton={scrollToBottom}
-      onPressScrollToBottomButton={scrollToBottom}
-    />
+    <LocalImageProvider>
+      <ChannelMessageList
+        {...props}
+        ref={ref}
+        onReplyMessage={setMessageToReply}
+        onEditMessage={setMessageToEdit}
+        onPressParentMessage={onPressParentMessage}
+        onPressNewMessagesButton={scrollToBottom}
+        onPressScrollToBottomButton={scrollToBottom}
+        />
+    </LocalImageProvider>
   );
 };
 
