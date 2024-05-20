@@ -86,7 +86,7 @@ const ImageWithPlaceholder = (props: Props) => {
           />
         )
       }
-      {imageNotFound && (
+      {imageNotFound && !props.cachedSource && (
         <Icon
           containerStyle={StyleSheet.absoluteFill}
           icon={'thumbnail-none'}
