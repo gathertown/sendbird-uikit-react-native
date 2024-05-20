@@ -158,7 +158,12 @@ export function getFileExtensionFromMime(mimeType?: string | null): string {
     return acc;
   }, {} as Record<string, string>);
 
-  const extension = MIME_EXTENSION_MAP[mimeType.toLowerCase()];
+  const additional_entries = {
+    // iOS photos come back with a MIME type of "image/jpg", which is not an official MIME type, so special
+    // casing it here.
+    'image/jpg': 'jpg',
+  };
+  const extension = {MIME_EXTENSION_MAP, ...additional_entries}[mimeType.toLowerCase()];
   if (extension) return '.' + extension;
   return '';
 }
