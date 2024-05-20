@@ -8,6 +8,7 @@ import useUIKitTheme from '../../theme/useUIKitTheme';
 import Box from '../Box';
 import Icon from '../Icon';
 import Image from '../Image';
+import LoadingSpinner from '../../ui/LoadingSpinner';
 
 const useRetry = (hasError: boolean, retryCount = 5) => {
   // NOTE: Glide(fast-image) will retry automatically on Android
@@ -43,27 +44,49 @@ type Props = {
   width?: number | string;
   height?: number | string;
   style?: StyleProp<ViewStyle>;
+  cachedSource?: string;
 };
 const ImageWithPlaceholder = (props: Props) => {
   const { palette, select, colors } = useUIKitTheme();
   const [imageNotFound, setImageNotFound] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  
   const key = useRetry(imageNotFound);
   return (
     <Box
-      style={[{ overflow: 'hidden', width: props.width, height: props.height }, props.style]}
+      style={[{ overflow: 'hidden', width: props.width, height: props.height }, props.style, styles.container]}
       backgroundColor={select({ dark: palette.background400, light: palette.background100 })}
     >
+      {loading && <LoadingSpinner />}
       <Image
         key={key}
         source={props.source}
         style={[StyleSheet.absoluteFill, imageNotFound && styles.hide]}
         resizeMode={'cover'}
         resizeMethod={'resize'}
-        onError={() => setImageNotFound(true)}
-        onLoad={() => setImageNotFound(false)}
+        onError={() => {
+          setLoading(false);
+          setImageNotFound(true);
+        }}
+        onLoad={() => {
+          setLoading(false);
+          setImageNotFound(false);
+        }}
       />
-      {imageNotFound && (
+      {
+        props.cachedSource && (loading || imageNotFound) && (
+          <Image
+            key={`local-${key}`}
+            source={{
+              uri: props.cachedSource,
+            }}
+            style={StyleSheet.absoluteFill}
+            resizeMode={'cover'}
+            resizeMethod={'resize'}
+          />
+        )
+      }
+      {imageNotFound && !props.cachedSource && (
         <Icon
           containerStyle={StyleSheet.absoluteFill}
           icon={'thumbnail-none'}
@@ -76,6 +99,11 @@ const ImageWithPlaceholder = (props: Props) => {
 };
 
 const styles = createStyleSheet({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 0,
+  },
   hide: {
     display: 'none',
   },

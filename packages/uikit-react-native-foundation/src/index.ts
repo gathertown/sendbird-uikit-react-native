@@ -106,3 +106,5 @@ export type {
   ShowToastRenderProp,
   ToastType,
 } from './context/CustomComponentCtx';
+
+export { LocalImageProvider } from './context/LocalImageContext';
