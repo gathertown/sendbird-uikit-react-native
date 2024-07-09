@@ -17,6 +17,7 @@ export type IncomingMessageContainerRenderProp = (props: {
   groupedWithPrev: boolean;
   playerId: string;
   displayedTime: string;
+  message: SendbirdMessage;
 }) => React.ReactElement;
 
 export type OutgoingMessageContainerRenderProp = (props: {
@@ -57,6 +58,7 @@ MessageContainer.Incoming = function MessageContainerIncoming({
       groupedWithPrev,
       playerId: isSendableMessage(message) ? message.sender.userId : '',
       displayedTime: strings?.sentDate ?? getMessageTimeFormat(new Date(message.createdAt)),
+      message,
     });
   }
 
