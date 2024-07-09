@@ -1,12 +1,16 @@
+import React, { useContext, Ref } from 'react';
+import { FlatList, FlatListProps, ListRenderItem, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import {
   BottomSheetItem,
   ChannelFrozenBanner,
-  CustomComponentContext,
   createStyleSheet,
   useAlert,
   useBottomSheet,
   useToast,
   useUIKitTheme,
+  CustomComponentContext
 } from '@gathertown/uikit-react-native-foundation';
 import {
   Logger,
@@ -24,11 +28,6 @@ import {
   toMegabyte,
   useFreshCallback,
 } from '@gathertown/uikit-utils';
-import React, { Ref, useContext } from 'react';
-import { FlatList, FlatListProps, ListRenderItem, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-import { UserMessage } from '@sendbird/chat/message';
 
 import type { UserProfileContextType } from '../../contexts/UserProfileCtx';
 import { useLocalization, usePlatformService, useSendbirdChat, useUserProfile } from '../../hooks/useContext';
@@ -36,6 +35,7 @@ import SBUUtils from '../../libs/SBUUtils';
 import type { CommonComponent } from '../../types';
 import ChatFlatList from '../ChatFlatList';
 import { ReactionAddons } from '../ReactionAddons';
+import { UserMessage } from '@sendbird/chat/message';
 
 type PressActions = { onPress?: () => void; onLongPress?: () => void };
 type HandleableMessage = SendbirdUserMessage | SendbirdFileMessage;
@@ -176,7 +176,7 @@ const ChannelMessageList = <T extends SendbirdGroupChannel | SendbirdOpenChannel
         <View style={[styles.newMsgButton, safeAreaLayout]}>
           {ctx.renderCombinedNewMessagesScrollToBottomButton({
             visible: hasNext() || scrolledAwayFromBottom,
-            onPress: () => (newMessages.length > 0 ? onPressNewMessagesButton() : onPressScrollToBottomButton()),
+            onPress: () => newMessages.length > 0 ? onPressNewMessagesButton() : onPressScrollToBottomButton(),
             newMessagesCount: newMessages.length,
           })}
         </View>
@@ -207,7 +207,6 @@ const useGetMessagePressActions = <T extends SendbirdGroupChannel | SendbirdOpen
   currentUserId,
   onResendFailedMessage,
   onEditMessage,
-  /* onReplyMessage, */
   onDeleteMessage,
   onPressMediaMessage,
 }: Pick<
