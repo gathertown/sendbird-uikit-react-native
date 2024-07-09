@@ -207,7 +207,6 @@ const useGetMessagePressActions = <T extends SendbirdGroupChannel | SendbirdOpen
   currentUserId,
   onResendFailedMessage,
   onEditMessage,
-  onReplyMessage,
   onDeleteMessage,
   onPressMediaMessage,
 }: Pick<
@@ -337,14 +336,15 @@ const useGetMessagePressActions = <T extends SendbirdGroupChannel | SendbirdOpen
           style: 'destructive',
         });
       }
-      if (channel.isGroupChannel() && sbOptions.uikit.groupChannel.channel.replyType === 'quote_reply') {
+      // Mobile threads are read-only for now
+      /* if (channel.isGroupChannel() && sbOptions.uikit.groupChannel.channel.replyType === 'quote_reply') {
         sheetItems.push({
           disabled: Boolean(msg.parentMessageId),
           icon: 'reply',
           title: STRINGS.LABELS.CHANNEL_MESSAGE_REPLY,
           onPress: () => onReplyMessage?.(msg),
         });
-      }
+      } */
     }
 
     if (msg.isFileMessage()) {
